@@ -14,16 +14,49 @@ var menuService = function($rootScope) {
     {name: 'state2', heading: 'State2', route: 'app.state2', active: false},
     {name: 'state3', heading: 'State3', route: 'app.state3', active: false}
   ];
+
   var currentMenuItem;
+
   var resetMenuItem = function(menuItem) {
     menuItem.active = false;
   };
+
   var resetMenuItems = function() {
     for (var i = 0; i < menuItems.length; i++) {
       resetMenuItem(menuItems[i]);
+    };
+  };
+
+  var findMenuItem = function(routeName) {
+    var criteriaFunction = function(c) {
+      return c.route === routeName || routeName.indexOf(c.route) != -1;
+    };
+    return menuItems.filter(criteriaFunction)[0];
+  };
+
+  $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+    currentMenuItem = findMenuItem(toState.name, toParams);
+  });
+
+  $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    if (currentMenuItem) {
+      currentMenuItem.active = true;
+      prevMenuItem = findMenuItem(fromState.name);
+      if (prevMenuItem && prevMenuItem.name !== currentMenuItem.name) {
+        prevMenuItem.active = false;
+      };
+    } else {
+      for (var i = 0; i < currentMenuItem.length; i++) {
+        currentMenuItem[i].active = false;
+      }
     }
-  }
-};
+  });
+
+  return {
+    nemuItems: menuItems,
+    cuttenMenuItem: currentMenuItem
+  };
+}
 
 myApp.config(['$modalProvider', '$locationProvider', '$stateProvider', '$urlRouterProvider',
   function($modalProvider, $locationProvider, $stateProvider, $urlRouterProvider) {
@@ -60,5 +93,5 @@ myApp.config(['$modalProvider', '$locationProvider', '$stateProvider', '$urlRout
           controller: function() { },
           reloadOnSearch: false
         });
-  };
+  }
 ]);
