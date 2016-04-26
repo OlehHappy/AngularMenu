@@ -1,0 +1,19 @@
+{
+  "name": "angularmenu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OlehHappy/AngularMenu.git"
+  },
+  "author": "Oleh Daybov <olegtranslator@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OlehHappy/AngularMenu/issues"
+  },
+  "homepage": "https://github.com/OlehHappy/AngularMenu#readme"
+}
